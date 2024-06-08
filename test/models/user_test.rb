@@ -1,35 +1,35 @@
-require "test_helper"
+require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(name: "Example User", email: "user@example.com")
+    @user = User.new(name: 'Example User', email: 'user@example.com')
   end
 
-  test "should be valid" do
+  test 'should be valid' do
     assert @user.valid?
   end
 
-  test "name_should_be_present" do
-    @user.name=" "
+  test 'name_should_be_present' do
+    @user.name = ' '
     assert_not @user.valid?
   end
 
-  test "email_should_be_present" do
-    @user.email=" "
+  test 'email_should_be_present' do
+    @user.email = ' '
     assert_not @user.valid?
   end
 
-  test "email should not be too long" do
-    @user.email="a"*244+"@example.com"
+  test 'email should not be too long' do
+    @user.email = 'a' * 244 + '@example.com'
     assert_not @user.valid?
   end
 
-  test "name should not be too long" do
-    @user.name = "hoge"*200
+  test 'name should not be too long' do
+    @user.name = 'hoge' * 200
     assert_not @user.valid?
   end
 
-  test "email validation should accept valid addresses" do
+  test 'email validation should accept valid addresses' do
     valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
                          first.last@foo.jp alice+bob@baz.cn]
     valid_addresses.each do |valid_address|
@@ -38,7 +38,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "email validation should reject invalid addresses" do
+  test 'email validation should reject invalid addresses' do
     invalid_addresses = %w[user@example,com user_at_foo.org user.name@example.
                            foo@bar_baz.com foo@bar+baz.com]
     invalid_addresses.each do |invalid_address|
