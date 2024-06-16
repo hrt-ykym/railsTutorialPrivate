@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  # メソッドを使ってなんらかの処理が実行される前に、その処理を実行する前に行う処理を指定する
+  # この場合、editとupdateアクションの前にlogged_in_userメソッドを実行する
+  before_action :logged_in_user, only: %i[edit update] # [:edit, :update]と書いてもよい。
+  before_action :correct_user,   only: %i[edit update]
+
   def show
     @user = User.find(params[:id])
   end
@@ -38,5 +43,21 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password,
                                  :password_confirmation)
+  end
+
+  # beforeフィルタ
+
+  # ログイン済みユーザーかどうか確認
+  def logged_in_user
+    return if logged_in?
+
+    flash[:danger] = 'Please log in.'
+    redirect_to login_url, status: :see_other
+  end
+
+  # 正しいユーザーかどうか確認
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url, status: :see_other) unless current_user?(@user)
   end
 end
