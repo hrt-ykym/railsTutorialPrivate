@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
   # メソッドを使ってなんらかの処理が実行される前に、その処理を実行する前に行う処理を指定する
   # この場合、editとupdateアクションの前にlogged_in_userメソッドを実行する
-  before_action :logged_in_user, only: %i[edit update] # [:edit, :update]と書いてもよい。
+  before_action :logged_in_user, only: %i[index edit update] # [:index, :edit, :update]と書いてもよい。
   before_action :correct_user,   only: %i[edit update]
+
+  def index
+    @users = User.all
+  end
 
   def show
     @user = User.find(params[:id])
