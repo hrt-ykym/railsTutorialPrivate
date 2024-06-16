@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
+    if user && user.authenticate(params[:session][:password]) ## userが存在している(nilじゃない) かつ authenticateメソッドがtrueを返す場合
       reset_session # ログインの直前に必ずこれを書くこと
       log_in user
       redirect_to user
